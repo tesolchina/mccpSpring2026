@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluating the Unexpected - Presentation</title>
+    <style>
+        /* Import Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+        :root {
+            /* Pastel Palette */
+            --color-bg: #FDFBF7;        /* Cream/Off-white */
+            --color-text: #333333;      /* Dark Gray */
+            --color-primary: #AEC6CF;   /* Pastel Blue - Headers/Accents */
+            --color-secondary: #77DD77; /* Pastel Green - Positive Data */
+            --color-tertiary: #FF6961;  /* Pastel Red - Negative Data/Attention */
+            --color-accent-light: #E8F0ED; /* Subtle highlight */
+            --font-main: 'Inter', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: #000; /* Dark background behind slides */
+            color: var(--color-text);
+            overflow: hidden; /* Prevent scrolling */
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* Slide Container */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--color-bg);
+            padding: 5vh 10vw; /* Standard padding per guide */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease-in-out, visibility 0.4s;
+            z-index: 1;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            z-index: 2;
+        }
+
+        /* Typography - Responsive clamp() sizes */
+        h1 {
+            font-size: clamp(2.4rem, 4.2vw, 3.6rem);
+            color: #588592; /* Darker shade of primary for readability */
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: clamp(1.8rem, 3vw, 2.5rem);
+            color: #588592;
+            margin-bottom: 1rem;
+        }
+
+        p, li {
+            font-size: clamp(1.25rem, 1.8vw, 1.55rem);
+            line-height: 1.6;
+            margin-bottom: 0.8rem;
+        }
+
+        ul {
+            list-style-type: none;
+            padding-left: 1rem;
+        }
+
+        li::before {
+            content: "•";
+            color: var(--color-primary);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+
+        /* Title Slide Specifics */
+        .title-slide h1 {
+            font-size: clamp(2.8rem, 5vw, 4rem);
+            color: var(--color-text);
+            border-bottom: 4px solid var(--color-primary);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+
+        .subtitle {
+            font-size: clamp(1.4rem, 2.2vw, 2rem);
+            color: #666;
+            margin-top: 1rem;
+            font-weight: 300;
+        }
+
+        .presenter-info {
+            margin-top: 3rem;
+            font-size: clamp(1rem, 1.5vw, 1.2rem);
+            color: #888;
+        }
+
+        /* Rubric Tags */
+        .rubric-tag {
+            display: inline-block;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+            letter-spacing: 0.05em;
+            background-color: var(--color-primary);
+            color: #fff;
+            align-self: flex-start;
+        }
+        
+        .rubric-tag.visual { background-color: var(--color-secondary); }
+        .rubric-tag.reflection { background-color: var(--color-tertiary); }
+
+        /* Visual Elements & Charts */
+        .visual-container {
+            margin-top: 2rem;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+        }
+
+        /* Improved Path Diagram (Slide 2) */
+        .concept-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            width: 100%;
+            max-width: 800px;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .concept-row {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .concept-label {
+            width: 150px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-align: right;
+            color: #555;
+        }
+        .concept-visual {
+            flex-grow: 1;
+            height: 60px;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        .arrow-line {
+            height: 4px;
+            background: #ddd;
+            width: 100%;
+            position: relative;
+        }
+        .arrow-line::after {
+            content: "➤";
+            position: absolute;
+            right: -10px;
+            top: -10px;
+            color: #ddd;
+            font-size: 1.5rem;
+        }
+        .target-dot {
+            width: 20px;
+            height: 20px;
+            background: var(--color-primary);
+            border-radius: 50%;
+            position: absolute;
+            right: 0;
+            top: -8px;
+        }
+        /* Serendipity Path */
+        .winding-path {
+            width: 100%;
+            height: 60px;
+            background: transparent;
+            border-bottom: 4px dashed var(--color-tertiary);
+            border-radius: 0 0 50% 50% / 0 0 100% 100%;
+            position: relative;
+            top: -30px;
+        }
+        .gem {
+            font-size: 2.5rem;
+            position: absolute;
+            left: 50%;
+            top: 10px;
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Comparison Icons */
+        .icon-comparison {
+            display: flex;
+            gap: 4rem;
+            font-size: 4rem;
+            text-align: center;
+        }
+        .icon-box p { font-size: 1rem; margin-top: 0.5rem; }
+
+        /* Flowchart */
+        .flowchart {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .flow-box {
+            background: var(--color-accent-light);
+            padding: 1rem 2rem;
+            border: 2px solid var(--color-primary);
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        .arrow { font-size: 2rem; color: var(--color-primary); }
+
+        /* Bar Chart */
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            height: 300px;
+            gap: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 2px solid #ccc;
+            width: 90%;
+            margin: 0 auto;
+        }
+        .bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            height: 100%;
+            justify-content: flex-end;
+        }
+        .bar {
+            width: 80px;
+            transition: height 1s ease-out;
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .bar-value {
+            margin-top: -1.8rem;
+            font-weight: bold;
+            font-size: 1.1rem;
+            color: #333;
+        }
+        .bar-label { margin-top: 1rem; font-size: 0.9rem; font-weight: bold; text-align: center; }
+        
+        .bg-proxy { background-color: #ddd; }
+        .bg-human { background-color: var(--color-secondary); }
+        .bg-gpt4 { background-color: var(--color-primary); }
+        .bg-llama { background-color: var(--color-tertiary); }
+
+        /* Transition Cue */
+        .transition-cue {
+            margin-top: auto;
+            padding-top: 1rem;
+            border-top: 1px solid #ddd;
+            font-style: italic;
+            color: #588592;
+            font-size: clamp(1.05rem, 1.4vw, 1.25rem);
+        }
+        .transition-cue::before {
+            content: "→ ";
+            font-weight: bold;
+        }
+
+        /* Slide Number */
+        .slide-number {
+            position: absolute;
+            bottom: 1.2rem;
+            right: 2rem;
+            color: #ccc;
+            font-size: 1rem;
+        }
+
+        /* Progress Bar */
+        #progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 6px;
+            background-color: var(--color-primary);
+            width: 0%;
+            transition: width 0.3s;
+            z-index: 10;
+        }
+
+        /* Edit Toolbar */
+        #edit-toolbar {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 0.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+            display: none;
+        }
+        #edit-toolbar button {
+            margin: 0 0.2rem;
+            padding: 0.4rem 0.8rem;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            background: #fff;
+            border-radius: 4px;
+        }
+        #edit-toolbar button:hover { background: #f0f0f0; }
+
+        /* Editing State */
+        [contenteditable="true"] {
+            border: 1px dashed #ccc;
+            padding: 2px;
+        }
+        [contenteditable="true"]:focus {
+            outline: 2px solid var(--color-primary);
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Progress Bar -->
+    <div id="progress-bar"></div>
+
+    <!-- Edit Toolbar -->
+    <div id="edit-toolbar">
+        <button onclick="saveToCache()">Save</button>
+        <button onclick="loadFromCache()">Load</button>
+        <button onclick="downloadHTML()">Download HTML</button>
+        <button onclick="clearCache()">Clear Cache</button>
+        <span style="font-size:0.8rem; margin-left:0.5rem; color:#666;">Press ESC to exit edit mode</span>
+    </div>
+
+    <!-- Slide 1: Title -->
+    <div class="slide active title-slide" id="slide-1">
+        <h1>Evaluating the Unexpected</h1>
+        <div class="subtitle">Exploring the Potential of LLMs for Serendipity Evaluation in Recommender Systems</div>
+        <div class="presenter-info">
+            <p><strong>Presenter:</strong> KANG Li</p>
+            <p>Paper Review & Analysis</p>
+        </div>
+        <div class="slide-number">1/10</div>
+    </div>
+
+    <!-- Slide 2: The Problem -->
+    <div class="slide" id="slide-2">
+        <span class="rubric-tag content">Content: Accessibility</span>
+        <h2>The "Happy Accident" Problem</h2>
+        <div class="content-body">
+            <p><strong>What is Serendipity?</strong> Finding something valuable <em>by accident</em>.</p>
+            <p><strong>The Conflict:</strong> Recommender Systems want <strong>Accuracy</strong> (Predictable) vs. Users love <strong>Serendipity</strong> (Surprising).</p>
+        </div>
+        
+        <div class="visual-container">
+            <div class="concept-diagram">
+                <div class="concept-row">
+                    <div class="concept-label">Accuracy</div>
+                    <div class="concept-visual">
+                        <div class="arrow-line"></div>
+                        <div class="target-dot"></div>
+                    </div>
+                </div>
+                <div class="concept-row">
+                    <div class="concept-label">Serendipity</div>
+                    <div class="concept-visual" style="flex-direction: column; justify-content: center;">
+                        <div class="winding-path"></div>
+                        <div class="gem">💎</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="transition-cue">But how do we measure this "surprise" without asking users?</div>
+        <div class="slide-number">2/10</div>
+    </div>
+
+    <!-- Slide 3: Methodology -->
+    <div class="slide" id="slide-3">
+        <span class="rubric-tag content">Content: Accuracy</span>
+        <h2>Why LLMs? (Methodology)</h2>
+        <ul>
+            <li><strong>Old Way:</strong> User Studies are slow and expensive ($$$).</li>
+            <li><strong>New Way:</strong> Using LLMs (like GPT-4) as "User Simulators".</li>
+            <li><strong>Key Question:</strong> Can an AI "feel" surprised like a human?</li>
+        </ul>
+
+        <div class="visual-container">
+            <div class="icon-comparison">
+                <div class="icon-box">
+                    <div>👤</div>
+                    <p>Human<br>(Gold Standard)</p>
+                </div>
+                <div class="icon-box" style="font-size:2rem; align-self:center;">vs.</div>
+                <div class="icon-box">
+                    <div>🤖</div>
+                    <p>LLM<br>(Scalable Proxy)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="transition-cue">Let's look at how they set up the experiment to test this.</div>
+        <div class="slide-number">3/10</div>
+    </div>
+
+    <!-- Slide 4: Experimental Setup -->
+    <div class="slide" id="slide-4">
+        <span class="rubric-tag visual">Visual Aids: Clarity</span>
+        <h2>Experimental Setup</h2>
+        <ul>
+            <li><strong>Datasets:</strong> MovieLens (Movies), Yelp (Restaurants), Amazon (Books).</li>
+            <li><strong>Models Tested:</strong> GPT-3.5, GPT-4, LLaMA2.</li>
+            <li><strong>Metric:</strong> Pearson Correlation with Human Ratings.</li>
+        </ul>
+
+        <div class="visual-container">
+            <div class="flowchart">
+                <div class="flow-box">Dataset Items</div>
+                <div class="arrow">→</div>
+                <div class="flow-box" style="border-color:var(--color-primary)">LLM Judge</div>
+                <div class="arrow">→</div>
+                <div class="flow-box" style="border-color:var(--color-secondary)">Serendipity Score</div>
+            </div>
+        </div>
+
+        <div class="transition-cue">Finding 1: Can a single LLM beat traditional math metrics?</div>
+        <div class="slide-number">4/10</div>
+    </div>
+
+    <!-- Slide 5: RQ1 Findings -->
+    <div class="slide" id="slide-5">
+        <span class="rubric-tag content">Content: Key Findings</span>
+        <h2>RQ1: Proxy vs. Single LLM</h2>
+        <ul>
+            <li><strong>Proxy Metrics (SOG):</strong> Only capture ~5% correlation. They are too rigid.</li>
+            <li><strong>Single LLM (Qwen2.5-7B):</strong> Reaches ~10.5% (Double the accuracy!).</li>
+            <li><strong>Insight:</strong> Even a small LLM acts like a better "user" than a formula.</li>
+        </ul>
+
+        <div class="visual-container">
+            <div class="bar-chart">
+                <div class="bar-group">
+                    <div class="bar bg-proxy" style="height: 25%;">
+                        <span class="bar-value">5.2%</span>
+                    </div>
+                    <div class="bar-label">Proxy Metric<br>(SOG)</div>
+                </div>
+                <div class="bar-group">
+                    <div class="bar bg-gpt4" style="height: 50%;">
+                        <span class="bar-value">10.5%</span>
+                    </div>
+                    <div class="bar-label">Single LLM<br>(Qwen-7B)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="transition-cue">Finding 2: Does giving the LLM more data help?</div>
+        <div class="slide-number">5/10</div>
+    </div>
+
+    <!-- Slide 6: RQ2 Findings (New Slide) -->
+    <div class="slide" id="slide-6">
+        <span class="rubric-tag visual">Visual Aids: Data</span>
+        <h2>RQ2: Context Matters (Auxiliary Data)</h2>
+        <ul>
+            <li><strong>Taobao Dataset:</strong> Adding "Purchase" data <em>hurt</em> performance (Dropped to 5.1%).</li>
+            <li><strong>Serendipity-2018:</strong> Adding "Ratings" <em>improved</em> performance (Up to 12.3%).</li>
+            <li><strong>Takeaway:</strong> More data isn't always better—it must be <em>relevant</em>.</li>
+        </ul>
+
+        <div class="visual-container">
+            <div class="bar-chart">
+                <div class="bar-group">
+                    <div class="bar bg-proxy" style="height: 55%;">
+                        <span class="bar-value">11.2%</span>
+                    </div>
+                    <div class="bar-label">Baseline<br>(No Context)</div>
+                </div>
+                <div class="bar-group">
+                    <div class="bar bg-llama" style="height: 25%;">
+                        <span class="bar-value">5.1%</span>
+                    </div>
+                    <div class="bar-label">w/ Purchase<br>(Noisy Data)</div>
+                </div>
+                <div class="bar-group">
+                    <div class="bar bg-human" style="height: 60%;">
+                        <span class="bar-value">12.3%</span>
+                    </div>
+                    <div class="bar-label">w/ Ratings<br>(Good Data)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="transition-cue">Finding 3: What if we use multiple LLMs together?</div>
+        <div class="slide-number">6/10</div>
+    </div>
+
+    <!-- Slide 7: RQ3 Findings -->
+    <div class="slide" id="slide-7">
+        <span class="rubric-tag content">Content: Key Findings</span>
+        <h2>RQ3: Two Heads Are Better Than One</h2>
+        <ul>
+            <li><strong>Method:</strong> Ensemble of 3 models (Qwen-14B, Qwen-72B, GPT-4).</li>
+            <li><strong>Result:</strong> Accuracy jumps to over <strong>20%</strong> correlation.</li>
+            <li><strong>Why?</strong> Different models cancel out each other's biases.</li>
+        </ul>
+
+        <div class="visual-container">
+            <div class="bar-chart">
+                <div class="bar-group">
+                    <div class="bar bg-gpt4" style="height: 55%;">
+                        <span class="bar-value">11.5%</span>
+                    </div>
+                    <div class="bar-label">Single LLM<br>(Best Case)</div>
+                </div>
+                <div class="bar-group">
+                    <div class="bar bg-human" style="height: 95%;">
+                        <span class="bar-value">21.5%</span>
+                    </div>
+                    <div class="bar-label">Multi-LLM<br>(Ensemble)</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="transition-cue">So, what does this mean for the future?</div>
+        <div class="slide-number">7/10</div>
+    </div>
+
+    <!-- Slide 8: Significance -->
+    <div class="slide" id="slide-8">
+        <span class="rubric-tag content">Content: Significance</span>
+        <h2>Why This Matters</h2>
+        <div class="visual-container" style="justify-content: space-around; margin-bottom: 2rem;">
+            <div style="text-align:center;">
+                <div style="font-size:3rem;">🚀</div>
+                <h3>Scalability</h3>
+                <p>Evaluate millions of items<br>instantly vs. weeks.</p>
+            </div>
+            <div style="text-align:center;">
+                <div style="font-size:3rem;">⚠️</div>
+                <h3>Limitation</h3>
+                <p>LLMs still have bias<br>and hallucinations.</p>
+            </div>
+        </div>
+        <p><strong>Democratization:</strong> Allows smaller teams to evaluate "subjective" metrics like serendipity without a massive budget.</p>
+
+        <div class="transition-cue">How does this apply to my own work?</div>
+        <div class="slide-number">8/10</div>
+    </div>
+
+    <!-- Slide 9: Impact -->
+    <div class="slide" id="slide-9">
+        <span class="rubric-tag reflection">Content: Reflection</span>
+        <h2>Impact on My Research</h2>
+        <p><strong>My Takeaway:</strong> I can adapt this "LLM-as-Evaluator" framework.</p>
+        <p><strong>Application:</strong> Using LLMs for preliminary evaluation before human testing in [My Specific Topic].</p>
+        
+        <div class="visual-container">
+            <div class="flowchart">
+                <div class="flow-box">Paper's Method</div>
+                <div class="arrow" style="font-size:3rem;">⤵</div>
+                <div class="flow-box" style="border-style:dashed;">My Research</div>
+            </div>
+        </div>
+        <p><em>"Use as a filter, not a judge."</em></p>
+
+        <div class="transition-cue">To wrap things up...</div>
+        <div class="slide-number">9/10</div>
+    </div>
+
+    <!-- Slide 10: Closing -->
+    <div class="slide" id="slide-10" style="text-align: center; align-items: center;">
+        <h1>Thank You!</h1>
+        <h2 style="font-weight: 300; color: #666;">Questions?</h2>
+        
+        <div style="margin-top: 3rem;">
+            <p><strong>Contact:</strong> KANG Li</p>
+            <p><strong>Code/Data:</strong> [Repository Link]</p>
+        </div>
+        <div class="slide-number">10/10</div>
+    </div>
+
+    <script>
+        // Navigation Logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const progressBar = document.getElementById('progress-bar');
+        const totalSlides = slides.length;
+        let isEditMode = false;
+
+        function updateSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) slide.classList.add('active');
+            });
+            // Update progress bar
+            const progress = ((index + 1) / totalSlides) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        function nextSlide() {
+            if (currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateSlide(currentSlide);
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlide(currentSlide);
+            }
+        }
+
+        // Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (isEditMode) {
+                if (e.key === 'Escape') toggleEditMode();
+                return; // Disable nav in edit mode
+            }
+
+            switch(e.key) {
+                case 'ArrowRight':
+                case ' ':
+                    nextSlide();
+                    break;
+                case 'ArrowLeft':
+                    prevSlide();
+                    break;
+                case 'Home':
+                    currentSlide = 0;
+                    updateSlide(currentSlide);
+                    break;
+                case 'End':
+                    currentSlide = totalSlides - 1;
+                    updateSlide(currentSlide);
+                    break;
+                case 'e':
+                case 'E':
+                    toggleEditMode();
+                    break;
+            }
+        });
+
+        // Click Navigation
+        document.addEventListener('click', (e) => {
+            if (isEditMode) return;
+            // Ignore clicks on buttons/interactive elements if any added later
+            if (e.target.tagName === 'BUTTON') return;
+
+            const width = window.innerWidth;
+            if (e.clientX > width * 0.6) {
+                nextSlide();
+            } else if (e.clientX < width * 0.4) {
+                prevSlide();
+            }
+        });
+
+        // Edit Mode Logic
+        function toggleEditMode() {
+            isEditMode = !isEditMode;
+            const toolbar = document.getElementById('edit-toolbar');
+            const editableElements = document.querySelectorAll('h1, h2, p, li, .subtitle, .bar-label, .flow-box, .bar-value');
+
+            if (isEditMode) {
+                toolbar.style.display = 'block';
+                editableElements.forEach(el => el.setAttribute('contenteditable', 'true'));
+                document.body.style.border = "4px solid orange";
+            } else {
+                toolbar.style.display = 'none';
+                editableElements.forEach(el => el.setAttribute('contenteditable', 'false'));
+                document.body.style.border = "none";
+            }
+        }
+
+        function saveToCache() {
+            localStorage.setItem('presentation-html', document.documentElement.outerHTML);
+            alert('Saved to local storage!');
+        }
+
+        function loadFromCache() {
+            const saved = localStorage.getItem('presentation-html');
+            if (saved) {
+                document.open();
+                document.write(saved);
+                document.close();
+            } else {
+                alert('No saved version found.');
+            }
+        }
+
+        function clearCache() {
+            localStorage.removeItem('presentation-html');
+            alert('Cache cleared.');
+        }
+
+        function downloadHTML() {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'presentation.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize
+        updateSlide(0);
+    </script>
+</body>
+</html>

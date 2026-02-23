@@ -10,9 +10,9 @@ After the AI agent generates your presentation outline (via `genOutline.md`), re
 
 <!-- Rate the overall quality of the generated outline (1-5 stars) and explain briefly -->
 
-Rating: ___/5
+Rating: _4__/5
 
-Comments:
+Comments: good
 
 
 ---
@@ -27,7 +27,7 @@ Comments:
 - [ ] The "impact on my research" section makes sense for my situation
 
 Issues or corrections:
-
+none
 
 ---
 
@@ -40,6 +40,8 @@ Issues or corrections:
 - [ ] The content is engaging for a general audience
 
 Suggestions:
+none
+
 
 
 ---
@@ -55,20 +57,19 @@ Suggestions:
 
 Suggestions:
 
-
+none
 ---
 
 ## Visual Aid Preferences
 
 <!-- What specific visuals do you want on your slides? -->
 
-- Preferred color scheme/style:
-- Specific diagrams or charts to include:
-- Key quotes from the paper to highlight:
-- Any images or visuals you want:
-- Other design preferences:
 
-
+- Preferred color scheme/style: pastel palette — light blue, light green, light red
+- Specific diagrams or charts to include: charts presenting the experimental results
+- Key quotes from the paper to highlight: none
+- Any images or visuals you want: none
+- Other design preferences: simple and easy to understand
 ---
 
 ## Specific Changes Requested
