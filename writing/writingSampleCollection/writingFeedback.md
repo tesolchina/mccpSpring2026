@@ -1,73 +1,123 @@
 # Writing Feedback — QIN Weiyi (秦偉一)
 
-## Notice: No Writing Samples Found
+## Feedback on QIN Weiyi's First Draft: Introduction and Literature Review
 
 **Student:** QIN Weiyi (秦偉一)
+**Topic:** Online Convex Optimization with Time-Varying Constraints (Double-Q Algorithm)
 **Date:** 2 March 2026
 **Reviewer:** Simon Wang (with AI-assisted analysis)
 
----
+**Your draft:** literature/WYQ*/firstDraft_template.md
+**Your reflection:** literature/WYQ*/reflection_template.md
+**Assessment rubric:** writing/assessment/writing_instructions_formatted.md
 
-## Status
+**Note:** Your writing samples are located in `literature/WYQ*/` rather than the expected `writing/writingSampleCollection/` folder. Please also copy them to the correct location for the final submission.
 
-I was unable to locate your writing samples in your GitHub repository. Your `writing/writingSampleCollection/` folder currently contains only the blank template files (e.g., `firstDraft_template.md`, `reflection_template.md`, `writingSamples_template.md`). No `firstDraft.md`, `writingSamples.md`, `reflection.md`, or `comments.md` files have been submitted.
-
-Without your writing samples, I cannot provide personalized feedback on your Introduction and Literature Review.
-
----
-
-## What You Need to Do
-
-### Step 1: Submit Your Writing Samples
-
-Please add your writing samples to your GitHub repository as soon as possible:
-
-1. **Copy the template files** and fill them in:
-   - `firstDraft.md` — Your draft Introduction and/or Literature Review (or relevant excerpts)
-   - `reflection.md` — Your reflection on your writing process, challenges, and goals
-   - Optionally: `comments.md` (supervisor/reviewer feedback), `writingSamples.md` (2–3 paragraph samples with move labels), `previousWriting.md` (any previous writing)
-
-2. **Commit and push** to your `main` branch in `mccpSpring2026/writing/writingSampleCollection/`
-
-3. **Let me know** when you have pushed your samples, and I will generate personalized feedback for you
-
-### Step 2: Write Your Assignment
-
-Your **final submission** is due by **15 March 2026 (Sunday), 11:59 PM**.
-
-To submit, you need to complete **two steps**:
-
-1. **GitHub + Moodle forum reply** — Save your revised Introduction and Literature Review as a Markdown file (e.g., `finalDraft.md`) in your `writing/writingSampleCollection/` folder. Commit and push to GitHub. Then reply to the Moodle forum post with a link to your file:
-   [https://buelearning.hkbu.edu.hk/mod/forum/discuss.php?d=351732](https://buelearning.hkbu.edu.hk/mod/forum/discuss.php?d=351732)
-
-2. **PDF for Turnitin** — Export your final writing as a PDF (font size 12, Times New Roman, line spacing 1.5 or double, margin 2.54 cm) and submit via Turnitin:
-   [https://buelearning.hkbu.edu.hk/mod/turnitintooltwo/view.php?id=1927407](https://buelearning.hkbu.edu.hk/mod/turnitintooltwo/view.php?id=1927407)
-
-### Step 3: Review the Writing Instructions
-
-Please read the [full writing instructions](https://github.com/tesolchina/mccpSpring2026/blob/main/writing/assessment/writing_instructions_formatted.md) carefully to understand the requirements for the Introduction and Literature Review.
+**Model papers analyzed:** COCO_Insights.md, COLDQ_Insights.md (your own analyses)
 
 ---
 
-## General Guidance
+## Overall Assessment
 
-Even without seeing your specific writing, here are the key areas most students need to work on:
+This is one of the strongest drafts in the class. Your Introduction and Literature Review demonstrate the hallmarks of mature academic writing: (1) a clear and complete move structure with explicit labels; (2) dense, accurate citations throughout — nearly every claim is supported by references; (3) precise mathematical notation where needed; and (4) a well-constructed argument that progresses from general OCO territory to specific research gaps. The fact that you have also prepared detailed model paper analyses (COCO_Insights.md, COLDQ_Insights.md) shows deep engagement with the literature. The main areas for improvement are relatively minor: (1) some passages are very notation-heavy, which may reduce accessibility for readers from neighboring fields; (2) the transition between Move 2 and Move 3 could be smoother; and (3) a few claims about practical networking applications are mentioned but not developed.
 
-1. **Introduction Structure:** Ensure your Introduction follows the three-move structure:
-   - Move 1: Establish the territory (why your research area matters)
-   - Move 2: Identify the niche (what gap exists in current research)
-   - Move 3: Occupy the niche (what your work contributes)
-
-2. **Literature Review Structure:** Follow the four-move structure:
-   - Move 1: Thematic overview (how you organize the literature)
-   - Move 2: Critical analysis (evaluate papers, don't just describe them)
-   - Move 3: Research gaps (what remains unaddressed)
-   - Move 4: Conclusion (connect literature to your research)
-
-3. **Citations:** Every factual claim needs a citation. Aim for 3–5 citations per paragraph.
-
-4. **Critical Analysis:** Don't just describe what papers do — evaluate their assumptions, limitations, and how they compare to each other.
+**Estimated current level:** Excellent (9–10 range) — The structure, citation density, analytical depth, and mathematical rigor are all strong. This draft is close to publication quality for the Introduction/Literature Review sections.
 
 ---
 
-Please push your writing samples as soon as possible so I can provide you with specific, personalized feedback before the deadline.
+## Part 1: Introduction Feedback
+
+### What Works Well
+
+- **Move 1 is well-structured and comprehensive.** You establish OCO as "a vital framework for sequential decision-making under uncertainty" and immediately ground it with foundational references (Shalev-Shwartz, Hazan, Orabona). The progression from standard OCO to constrained OCO (COCO) is logical and well-motivated.
+- **The practical motivation is compelling.** "Many practical networking applications only require constraints to be satisfied cumulatively over time" — this bridges the gap between theory and practice effectively.
+- **Citation density is exemplary.** Your Introduction alone contains 30+ citations, each precisely placed. This is the standard for a top-tier venue submission.
+- **The two-metric framework is clearly explained.** The distinction between "soft violation" (allowing compensated violations) and "hard violation" (prohibiting any compensated violation) is a key conceptual contribution of the literature, and you explain it clearly.
+- **Move labels are explicit.** You mark Move 1, Move 2, Move 3, and Move 4 — this is exactly the structural awareness the course teaches.
+
+### Issue 1: Notation Density May Reduce Accessibility
+
+Your Introduction introduces substantial mathematical notation: $\mathcal{O}(\sqrt{T})$, $\mathcal{O}(\log{T})$, $\mathcal{O}(T^{1-v})$, $\mathcal{O}(T^v)$, etc. While this precision is appropriate for an optimization theory audience, consider adding one plain-language sentence after each key result to help readers from related fields:
+
+**Your sentence:** "The seminal OCO work achieved $\mathcal{O}(\sqrt{T})$ regret for a sequence of $T$ arbitrary convex loss functions."
+
+**More accessible version:** "The seminal OCO work achieved $\mathcal{O}(\sqrt{T})$ regret for a sequence of $T$ arbitrary convex loss functions — meaning the average per-round performance gap shrinks to zero as the time horizon grows, at a rate inversely proportional to $\sqrt{T}$."
+
+This is optional but would broaden your readership.
+
+### Issue 2: Practical Applications Could Be Developed
+
+You mention "many practical networking applications" and cite several papers, but don't develop what these applications are. One concrete example would strengthen the motivation:
+
+**Suggestion:** "For instance, in wireless resource allocation [citation], the channel allocation constraint need not hold at every time slot; it suffices to ensure total allocated capacity remains within the budget over the scheduling horizon. Similarly, in online ad auction systems [citation], budget constraints are inherently cumulative."
+
+### Issue 3: Move 3 Transition Could Be Smoother
+
+The transition from Move 2's detailed analysis of existing bounds to Move 3 ("Another line of work bridges the two COCO worlds") is slightly abrupt. Consider adding a transitional sentence that explicitly frames the gap:
+
+**Suggestion:** "The sharp contrast between the two COCO worlds — $\mathcal{O}(1)$ violation for fixed constraints versus $\mathcal{O}(T^{3/4})$ for arbitrary time-varying constraints — raises a natural question: can we design algorithms that achieve the best of both worlds, adapting to the actual level of constraint variation?"
+
+---
+
+## Part 2: Literature Review Feedback
+
+### What Works Well
+
+- **The literature review is embedded in the Introduction** (common in theory papers) and executed well. You trace the development from early COCO works through fixed constraints, time-varying constraints, and unified analysis.
+- **Critical analysis is present.** You don't just cite papers — you compare their bounds: "improving to $\mathcal{O}(\max\{T^{1/2}, T^v\})$ soft violation under Slater's condition" — this shows exactly how the field has progressed.
+- **Move 4 is strong and specific.** The conclusion explicitly positions your Double-Q algorithm: "bridges the best-known hard violations in the two COCO worlds, outperforming state-of-the-art algorithms." The reference to Table 1 for comparison is a good practice.
+
+### Issue 4: Consider Adding a Comparison Table Description
+
+You reference "Table~\ref{tab:1}" but the table itself is not in the submitted draft. For the course assignment, consider including the table or describing its contents textually so readers can see the comparison without the table.
+
+### Issue 5: The "Two Worlds" Framing Could Be Made More Vivid
+
+Your key insight — that fixed-constraint COCO and time-varying COCO have been studied as separate problems — is the central gap. Consider making this framing more vivid at the start of Move 2:
+
+**Suggestion:** "The COCO literature has bifurcated into two largely independent worlds. In the first world — fixed constraints — algorithms achieve remarkably tight $\mathcal{O}(1)$ hard violation bounds. In the second world — time-varying constraints — even the best algorithms suffer $\mathcal{O}(T^{3/4})$ violation. This bifurcation is not just a gap in the literature; it reflects a fundamental algorithmic challenge: how to design a single algorithm that adapts its constraint satisfaction strategy to the actual level of constraint variation, without knowing this variation in advance."
+
+---
+
+## Part 3: Reflection and Process Feedback
+
+### What Works Well
+
+Your reflection demonstrates sophisticated metacognitive awareness:
+
+- **"I follow a problem–limitation–opportunity structure"** — this maps directly to the Move 1 → Move 2 → Move 3 pattern, showing you have internalized the rhetorical structure
+- **"AI is helpful for language polishing but requires careful checking for technical accuracy"** — critical insight for mathematics-heavy writing where AI often makes notation errors
+- **Clear specific goals:** "gap identification, synthesis of related work, and high-level academic expression" — these are exactly the right areas
+
+### Issue 6: Your Draft Already Shows Strong Gap Identification
+
+Your reflection mentions gap identification as a goal to develop, but your draft already demonstrates strong gap identification (the "two COCO worlds" framing). This suggests your self-assessment may be overly modest. Your real growth area may be more about narrative flow — making the dense mathematical argument read as a compelling story rather than a sequence of results.
+
+---
+
+## Part 4: Model Paper Analyses
+
+You have prepared detailed analyses of two model papers (COCO_Insights.md, COLDQ_Insights.md). This level of preparation is exceptional and shows deep engagement with the literature. These analyses will serve you well when writing the full paper.
+
+---
+
+## Summary of Priority Actions
+
+| Priority | Action | Impact |
+|----------|--------|--------|
+| 🟡 Medium | Add plain-language interpretations after key mathematical results | Broadens accessibility |
+| 🟡 Medium | Develop one concrete practical application example | Strengthens real-world motivation |
+| 🟡 Medium | Smooth the Move 2 → Move 3 transition | Improves narrative flow |
+| 🟡 Medium | Copy files to `writing/writingSampleCollection/` for final submission | Meets submission requirements |
+| 🟢 Lower | Include or describe Table 1 content textually | Makes comparison self-contained |
+| 🟢 Lower | Make "two worlds" framing more vivid at the start of Move 2 | Enhances storytelling |
+
+---
+
+## Next Steps
+
+1. Read the [full writing instructions](https://github.com/tesolchina/mccpSpring2026/blob/main/writing/assessment/writing_instructions_formatted.md) carefully
+2. Consider adding accessibility touches (plain-language interpretations, concrete examples)
+3. Smooth transitions between moves
+4. Copy your draft to `writing/writingSampleCollection/` folder
+5. Submit by **15 March 2026** via Moodle forum and Turnitin
